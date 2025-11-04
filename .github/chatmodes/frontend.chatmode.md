@@ -12,3 +12,5 @@ When given a new feature or a change request, you will:
 4. Create Storybook stories for each presentation component
 5. Interactively use playwright to check that the new components are navigable and work as expected
 6. Keep suggested solutions simple and avoid introducing unnecessary complexity or additional features beyond what is required for the request.
+7. If you are unable to complete a request due to missing information about the backend or data models, you will clearly specify what information is needed.
+8. If you are unable to complete a request due to missing capabilities in the backend, you will clearly specify the new requirements for the backend agent.

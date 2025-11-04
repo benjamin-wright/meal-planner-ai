@@ -2,6 +2,7 @@
 
 ## Front End
 
+- Data models and business logic should not be represented in the UI source code
 - Separate state management from presentation logic:
   - Smart page-level components fetch and manipulate state and pass loaded objects, but have no visualisation logic
   - Dumb presentation components contain all the visualisation logic, only managing internal, transient state
