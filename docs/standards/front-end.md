@@ -11,6 +11,8 @@
 - Animations should be implemented using Framer-motion: (reference: https://motion.dev/docs/react)
 - Drag and drop in lists should be implemented using the Framer-motion Reorder component: (reference: https://motion.dev/docs/react-reorder)
 - Inline styles should be avoided, except where absolutely required to avoid visual artifacts.
+- CSS variables should be used for all theming (i.e. colours, spacing, radiuses, etc.)
+- CSS should support light mode and dark mode using media queries to detect the platform preference
 - A Storybook stories file should be provided for each presentation component, with individual stories for each significant visual mode
 - Offline first: Use a PWA-centric approach and local persistence to retain full functionality when offline
 - Accessibility, for humans and for playwright

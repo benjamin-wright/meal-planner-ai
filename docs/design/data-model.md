@@ -332,7 +332,7 @@ The following diagram illustrates the relationships between entities:
 1. **Category**
    - Name must be unique
    - Name cannot be empty or whitespace only
-   - sortOrder, if provided, must be non-negative
+   - sortOrder must be non-negative
 
 2. **Unit**
    - Name must be unique
