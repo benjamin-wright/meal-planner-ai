@@ -1,0 +1,58 @@
+.manage-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.manage-tabs {
+  display: flex;
+  gap: var(--spacing-md, 1rem);
+  padding: var(--spacing-md, 1rem);
+  border-bottom: 1px solid var(--color-border, #ccc);
+  background-color: var(--color-surface, #fff);
+  overflow-x: auto;
+}
+
+.manage-tabs a {
+  padding: var(--spacing-sm, 0.5rem) var(--spacing-md, 1rem);
+  text-decoration: none;
+  color: var(--color-text-secondary, #666);
+  border-radius: var(--radius-sm, 0.25rem);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.manage-tabs a:hover {
+  background-color: var(--color-surface-hover, #f5f5f5);
+}
+
+.manage-tabs a.active {
+  color: var(--color-primary, #0066cc);
+  font-weight: 600;
+  background-color: var(--color-primary-subtle, #e6f2ff);
+}
+
+.manage-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .manage-tabs {
+    background-color: var(--color-surface-dark, #1a1a1a);
+    border-bottom-color: var(--color-border-dark, #333);
+  }
+
+  .manage-tabs a {
+    color: var(--color-text-secondary-dark, #aaa);
+  }
+
+  .manage-tabs a:hover {
+    background-color: var(--color-surface-hover-dark, #2a2a2a);
+  }
+
+  .manage-tabs a.active {
+    color: var(--color-primary-dark, #4d9fff);
+    background-color: var(--color-primary-subtle-dark, #1a3a5c);
+  }
+}

@@ -13,10 +13,10 @@ Building the foundational framework for the application with a landing page and 
 1. [Implement Core Data Models](./todos/implement-core-data-models.md) - **Complete**
    - Create TypeScript type definitions for all core entities
    
-2. [Implement Persistence Interface](./todos/implement-persistence-interface.md) - **Not Started**
+2. [Implement Persistence Interface](./todos/implement-persistence-interface.md) - **Complete**
    - Define repository interfaces for data access operations
    
-3. [Implement IndexedDB Persistence](./todos/implement-indexeddb-persistence.md) - **Not Started**
+3. [Implement IndexedDB Persistence](./todos/implement-indexeddb-persistence.md) - **Complete**
    - Create concrete IndexedDB implementation of persistence layer
 
 ### Frontend Tasks

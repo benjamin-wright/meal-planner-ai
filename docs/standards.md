@@ -8,4 +8,5 @@ This application is built using the following standards:
 - [Architectural](./standards/architectural.md): standards related to application architecture
 - [Front End](./standards/front-end.md): standards related to React and the user interface
 - [Back End](./standards/back-end.md): standards related to the data model and business logic
+- [Testing](./standards/testing.md): standards related to linting and testing
 - [Documenation](./standards/docs.md): standards related to project documentation
