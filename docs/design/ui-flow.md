@@ -1,97 +1,76 @@
 [back](../design.md)
 
-# UI Flow
 
-This document outlines the user interface flow for the Meal Planner AI application, describing the primary screens, navigation paths, and user workflows.
+# UI Flow (Mobile-First PWA)
+
+This document outlines the user interface flow for the Meal Planner AI application, optimized for a mobile-first progressive web app (PWA) experience. It describes the primary screens, navigation model, and user workflows.
+
+## Rationale
+
+- **Mobile-first PWA**: Prioritizes quick access and thumb-friendly navigation.
+- **Default Landing**: Users land directly on the "Plan" (Meal Calendar) page, reflecting the app’s core value.
+- **Navigation**: Uses a persistent, mobile-style bottom navigation bar for primary sections.
 
 ## Overview
 
-The application is structured around five core management workflows and two planning/output views:
+The application is structured around three primary navigation sections, each supporting key workflows:
 
-1. **Category Management** - Create and organize supermarket categories
-2. **Unit Management** - Define custom measurement units
-3. **Item Management** - Manage ingredients, ready meals, and household items
-4. **Recipe Management** - Create and edit recipes with ingredients
-5. **Meal Planning** - Schedule meals on a calendar
-6. **Shopping List View** - Generate consolidated shopping lists from meal plans
-7. **Dashboard/Home** - Central navigation and overview
+1. **Plan** - Meal calendar and planning interface (default landing page)
+2. **Shop** - Shopping list generation and management
+3. **Manage** - Manage categories, units, items, and recipes
+
+Management workflows (Categories, Units, Items, Recipes) are accessed via the Manage section. There is no separate Home/Dashboard page; summary information is surfaced contextually (e.g., at the top of the Plan page).
+
 
 ## Application Structure
 
 ### Navigation Model
 
-The application uses a primary navigation pattern with the following top-level sections:
+The application uses a persistent, mobile-style **bottom navigation bar** with the following primary sections:
 
-- **Home** - Dashboard with quick access and overview
-- **Manage** - Dropdown/expandable menu containing:
-  - Categories
-  - Units
-  - Items
-  - Recipes
-- **Plan** - Meal calendar and planning interface
-- **Shop** - Shopping list generation and management
+- **Plan** (default landing): Meal calendar and planning interface
+- **Shop**: Shopping list generation and management
+- **Manage**: Menu or tabbed view for managing Categories, Units, Items, and Recipes
+
+#### Navigation Pattern
+
+- Tapping a nav icon switches to the corresponding section.
+- "Manage" opens a sub-menu or tabbed view for object types.
+- There is no separate Home/Dashboard page; summary cards (e.g., quick stats, recent activity) may be shown at the top of the Plan page or as overlays.
 
 ### Page Hierarchy
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         Home/Dashboard                       │
-│  - Quick stats (recipes count, upcoming meals, etc.)        │
-│  - Quick access to common actions                           │
-│  - Recent activity                                          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        │                     │                     │
-        ▼                     ▼                     ▼
-┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│    Manage    │      │     Plan     │      │     Shop     │
-└──────────────┘      └──────────────┘      └──────────────┘
-        │                     │                     │
-        │                     ▼                     ▼
-        │             ┌──────────────┐      ┌──────────────┐
-        │             │ Meal Calendar│      │Shopping List │
-        │             │    View      │      │   Generator  │
-        │             └──────────────┘      └──────────────┘
-        │                     │
-        │                     ▼
-        │             ┌──────────────┐
-        │             │  Add/Edit    │
-        │             │     Meal     │
-        │             └──────────────┘
-        │
-        ├──► Categories List ──► Add/Edit Category
-        │
-        ├──► Units List ──► Add/Edit Unit
-        │
-        ├──► Items List ──► Add/Edit Item
-        │
-        └──► Recipes List ──► Add/Edit Recipe ──► Recipe Detail View
+┌─────────────────────────────────────────────┐
+│           [Bottom Navigation Bar]           │
+│  ┌───────┬───────┬────────┐                 │
+│  │ Plan  │ Shop  │ Manage │                 │
+│  └───────┴───────┴────────┘                 │
+└─────────────────────────────────────────────┘
+  │         │         │
+  ▼         ▼         ▼
+   Meal Plan   Shopping   Manage
+   Calendar     List      (Tabs: Categories, Units, Items, Recipes)
 ```
 
 ## Detailed Screen Flows
 
-### 1. Home/Dashboard
 
-**Purpose**: Central entry point providing overview and quick access to common actions.
+### 1. Plan (Default Landing)
+
+**Purpose**: Visualize and manage scheduled meals on a calendar. This is the first screen users see.
 
 **Elements**:
-- Welcome message with current date
-- Quick statistics cards:
-  - Total recipes count
-  - Upcoming meals (next 7 days)
-  - Items in shopping list
-- Quick action buttons:
-  - "Plan a Meal"
-  - "Create Recipe"
-  - "View Shopping List"
-- Recent activity feed (last edited recipes, recently added meals)
+- Page header: "Meal Plan"
+- (Optional) Summary cards at the top: total recipes, upcoming meals, items in shopping list
+- Date range selector: week/month view, navigation arrows, "Today" button
+- Calendar grid: each day with date, list of meals, "Add Meal" button
+- Action buttons: "Generate Shopping List" for selected date range
 
 **Navigation**:
-- To Meal Planning: Click "Plan a Meal" or "Plan" in main nav
-- To Recipe Creation: Click "Create Recipe"
-- To Shopping List: Click "View Shopping List" or "Shop" in main nav
-- To Management Screens: Use "Manage" dropdown menu
+- Add/Edit Meal: Opens Add/Edit Meal form
+- View Meal: Opens Meal Detail modal
+- Generate Shopping List: Navigates to Shopping List Generator with date range pre-set
 
 ---
 
@@ -468,69 +447,50 @@ The application uses a primary navigation pattern with the following top-level s
 ### Workflow 1: First-Time Setup
 
 1. User opens app for the first time
-2. Dashboard is empty with prompts to set up data
-3. User navigates to Manage → Categories
-4. Creates categories matching their supermarket layout
-5. User navigates to Manage → Units
-6. Creates common units they'll use (grams, cups, slices, etc.)
-7. User navigates to Manage → Items
-8. Adds common ingredients they use
-9. User navigates to Manage → Recipes
-10. Creates their first recipe using the items and units
+2. Plan (Meal Calendar) page is shown, with prompts to set up data if empty
+3. User taps **Manage** in the bottom nav
+4. Selects **Categories** tab/menu, creates categories
+5. Selects **Units** tab/menu, creates units
+6. Selects **Items** tab/menu, adds ingredients
+7. Selects **Recipes** tab/menu, creates first recipe
 
 ### Workflow 2: Planning a Week of Meals
 
-1. User navigates to Plan (Meal Calendar)
+1. User lands on Plan (Meal Calendar)
 2. Selects week view
-3. For each day they want to plan:
-   - Clicks "Add Meal" on that day
-   - Selects recipes from dropdown (or adds ready meals)
-   - Sets servings count
-   - Adds optional notes
-   - Saves meal
+3. For each day to plan:
+  - Taps "Add Meal" on that day
+  - Selects recipes or ready meals
+  - Sets servings, adds notes, saves meal
 4. Reviews week at a glance on calendar
 
 ### Workflow 3: Generating a Shopping List
 
-1. User navigates to Shop (Shopping List Generator)
+1. User taps **Shop** in the bottom nav
 2. Selects date range (e.g., "This Week")
-3. Clicks "Generate List"
+3. Taps "Generate List"
 4. Reviews consolidated list grouped by category
-5. Uses list while shopping, checking off items as collected
-6. Optionally prints or exports list for offline use
+5. Checks off items while shopping
+6. Optionally prints or exports list
 
 ### Workflow 4: Creating a New Recipe
 
-1. User navigates to Manage → Recipes
-2. Clicks "Add Recipe"
-3. Fills in basic details (name, description, dish type, course, servings, times)
-4. Adds ingredients one by one:
-   - Selects item from dropdown
-   - Selects unit
-   - Enters quantity
-5. Adds preparation steps in order
-6. Reviews and saves
-7. Recipe appears in Recipes List and is available for meal planning
+1. User taps **Manage** in the bottom nav, selects **Recipes**
+2. Taps "Add Recipe"
+3. Fills in details, adds ingredients and steps
+4. Saves recipe
+5. Recipe appears in Recipes List and is available for meal planning
 
 ### Workflow 5: Adding a Ready Meal Item and Planning It
 
-1. User navigates to Manage → Items
-2. Clicks "Add Item"
-3. Enters name (e.g., "Frozen Lasagna")
-4. Selects category (e.g., "Frozen Foods")
-5. Selects item type: "ready_meal"
-6. Fills in ready meal details:
-   - Dish: dinner
-   - Course: main
-   - Servings: 2
-   - Prep time: 45 minutes
-7. Saves item
-8. User navigates to Plan
-9. Adds a meal for a specific day
-10. Clicks "Add Ready Meal" in meal form
-11. Selects the "Frozen Lasagna" item
-12. Saves meal
-13. Ready meal appears in calendar and will be included in shopping list
+1. User taps **Manage** in the bottom nav, selects **Items**
+2. Taps "Add Item"
+3. Enters name, selects category and type "ready_meal"
+4. Fills in ready meal details
+5. Saves item
+6. Returns to Plan, adds a meal for a day
+7. Taps "Add Ready Meal" in meal form, selects the item
+8. Saves meal; ready meal appears in calendar and shopping list
 
 ---
 
