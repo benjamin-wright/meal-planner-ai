@@ -1,13 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { RecipeDetailPageView } from './RecipeDetailPage-view';
 
 export const RecipeDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  return (
-    <div className="page-container">
-      <h1>Recipe Detail</h1>
-      <p>Viewing recipe {id}</p>
-      <p>Recipe detail view coming soon...</p>
-    </div>
-  );
+  
+  // TODO: Add data loading logic here
+
+  return <RecipeDetailPageView recipeId={id} />;
 };

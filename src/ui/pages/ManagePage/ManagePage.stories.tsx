@@ -1,84 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
-import { CategoryIcon, UnitIcon, ItemIcon, RecipeIcon, ChevronRightIcon } from '../components/Icons';
-import './ManagePage.css';
-
-/**
- * Presentation version of ManagePage for Storybook.
- * This component displays navigation cards without data fetching.
- */
-interface NavigationCardProps {
-  title: string;
-  count: number | null;
-  icon: React.ReactNode;
-  onClick: () => void;
-}
-
-const NavigationCard: React.FC<NavigationCardProps> = ({ title, count, icon, onClick }) => (
-  <button
-    className="nav-card"
-    onClick={onClick}
-    aria-label={`Navigate to ${title}`}
-    role="link"
-  >
-    <div className="nav-card-icon">{icon}</div>
-    <div className="nav-card-content">
-      <h2 className="nav-card-title">{title}</h2>
-      <p className="nav-card-count">
-        {count !== null ? `${count} ${title.toLowerCase()}` : 'Loading...'}
-      </p>
-    </div>
-    <ChevronRightIcon className="nav-card-chevron" />
-  </button>
-);
-
-interface ManagePagePresentationProps {
-  counts: {
-    categories: number | null;
-    units: number | null;
-    items: number | null;
-    recipes: number | null;
-  };
-}
-
-const ManagePagePresentation: React.FC<ManagePagePresentationProps> = ({ counts }) => {
-  const handleNavigate = (path: string) => {
-    console.log(`Navigate to: ${path}`);
-  };
-
-  return (
-    <div className="page-container manage-page">
-      <h1>Manage</h1>
-      <div className="manage-hub">
-        <NavigationCard
-          title="Categories"
-          count={counts.categories}
-          icon={<CategoryIcon />}
-          onClick={() => handleNavigate('/manage/categories')}
-        />
-        <NavigationCard
-          title="Units"
-          count={counts.units}
-          icon={<UnitIcon />}
-          onClick={() => handleNavigate('/manage/units')}
-        />
-        <NavigationCard
-          title="Items"
-          count={counts.items}
-          icon={<ItemIcon />}
-          onClick={() => handleNavigate('/manage/items')}
-        />
-        <NavigationCard
-          title="Recipes"
-          count={counts.recipes}
-          icon={<RecipeIcon />}
-          onClick={() => handleNavigate('/manage/recipes')}
-        />
-      </div>
-    </div>
-  );
-};
+import { ManagePageView } from './ManagePage-view';
 
 /**
  * ManagePage Hub displays navigation cards to access Categories, Units, Items, and Recipes.
@@ -88,7 +11,7 @@ const ManagePagePresentation: React.FC<ManagePagePresentationProps> = ({ counts 
  */
 const meta = {
   title: 'Pages/ManagePage',
-  component: ManagePagePresentation,
+  component: ManagePageView,
   decorators: [
     (Story) => (
       <BrowserRouter>
@@ -100,7 +23,7 @@ const meta = {
     layout: 'fullscreen',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof ManagePagePresentation>;
+} satisfies Meta<typeof ManagePageView>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -116,6 +39,9 @@ export const Default: Story = {
       items: 45,
       recipes: 23,
     },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
+    },
   },
 };
 
@@ -129,6 +55,9 @@ export const Empty: Story = {
       units: 0,
       items: 0,
       recipes: 0,
+    },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
     },
   },
 };
@@ -144,6 +73,9 @@ export const Loading: Story = {
       items: null,
       recipes: null,
     },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
+    },
   },
 };
 
@@ -158,6 +90,9 @@ export const Populated: Story = {
       items: 150,
       recipes: 87,
     },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
+    },
   },
 };
 
@@ -171,6 +106,9 @@ export const DarkMode: Story = {
       units: 12,
       items: 45,
       recipes: 23,
+    },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
     },
   },
   parameters: {
@@ -196,6 +134,9 @@ export const Mobile: Story = {
       items: 45,
       recipes: 23,
     },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
+    },
   },
   parameters: {
     viewport: {
@@ -214,6 +155,9 @@ export const Tablet: Story = {
       units: 12,
       items: 45,
       recipes: 23,
+    },
+    onNavigate: (_path: string) => {
+      // Navigation handler for Storybook
     },
   },
   parameters: {

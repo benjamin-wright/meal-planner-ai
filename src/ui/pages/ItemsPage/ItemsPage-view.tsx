@@ -1,16 +1,17 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon } from '../components/Icons';
+import { ArrowLeftIcon } from '../../components/ArrowLeftIcon';
 
-export const ItemsPage: React.FC = () => {
-  const navigate = useNavigate();
+export interface ItemsPageViewProps {
+  onBack: () => void;
+}
 
+export const ItemsPageView: React.FC<ItemsPageViewProps> = ({ onBack }) => {
   return (
     <div className="page-container">
       <div className="page-header">
         <button
           className="back-button"
-          onClick={() => navigate('/manage')}
+          onClick={onBack}
           aria-label="Back to Manage"
         >
           <ArrowLeftIcon />

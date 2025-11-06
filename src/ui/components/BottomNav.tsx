@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { CalendarIcon, ShoppingCartIcon, SettingsIcon } from './Icons';
+import { CalendarIcon } from './CalendarIcon';
+import { ShoppingCartIcon } from './ShoppingCartIcon';
+import { SettingsIcon } from './SettingsIcon';
 import './BottomNav.css';
 
 export const BottomNav: React.FC = () => (

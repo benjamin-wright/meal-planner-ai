@@ -1,2 +1,10 @@
 export { BottomNav } from './BottomNav';
-export { CalendarIcon, ShoppingCartIcon, SettingsIcon } from './Icons';
+export { CalendarIcon } from './CalendarIcon';
+export { ShoppingCartIcon } from './ShoppingCartIcon';
+export { SettingsIcon } from './SettingsIcon';
+export { CategoryIcon } from './CategoryIcon';
+export { UnitIcon } from './UnitIcon';
+export { ItemIcon } from './ItemIcon';
+export { RecipeIcon } from './RecipeIcon';
+export { ChevronRightIcon } from './ChevronRightIcon';
+export { ArrowLeftIcon } from './ArrowLeftIcon';
