@@ -1,9 +1,23 @@
 import React from 'react';
-const RecipesPage: React.FC = () => (
-  <div className="page-container">
-    <h1>Recipes</h1>
-    <p>Recipe management coming soon...</p>
-  </div>
-);
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon } from '../components/Icons';
 
-export default RecipesPage;
+export const RecipesPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <button
+          className="back-button"
+          onClick={() => navigate('/manage')}
+          aria-label="Back to Manage"
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Recipes</h1>
+      </div>
+      <p>Recipe management coming soon...</p>
+    </div>
+  );
+};

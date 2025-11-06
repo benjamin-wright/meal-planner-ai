@@ -6,7 +6,18 @@
 - Separate state management from presentation logic:
   - Smart page-level components fetch and manipulate state and pass loaded objects, but have no visualisation logic
   - Dumb presentation components contain all the visualisation logic, only managing internal, transient state
-- Components should be modular, reusable, and well-documented.
+- Components:
+  - should be modular, reusable, and well-documented.
+  - each component should have its own file
+- directory structure:
+  - ./components - re-usable general purpose components
+  - ./pages
+    - ./{PAGE_NAME}
+      - ./{PAGE_NAME}.tsx - smart page-level component
+      - ./{PAGE_NAME}-view.tsx - dump page-level presentation component
+      - ./{PAGE_NAME}.stories.tsx - page-level story using the `{PAGE_NAME}-view.tsx` component
+        - ./components - subdirectory for page-specific components
+  - ./layout - router layout components
 - Icons should be embedded as SVG React components, with inspiration available at https://reactsvgicons.com/
 - Animations should be implemented using Framer-motion: (reference: https://motion.dev/docs/react)
 - Drag and drop in lists should be implemented using the Framer-motion Reorder component: (reference: https://motion.dev/docs/react-reorder)

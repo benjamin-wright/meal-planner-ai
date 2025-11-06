@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { CalendarIcon, ShoppingCartIcon, SettingsIcon } from './Icons';
 import './BottomNav.css';
 
-const BottomNav: React.FC = () => (
+export const BottomNav: React.FC = () => (
   <nav className="bottom-nav" role="navigation" aria-label="Main navigation">
     <NavLink
       to="/"
@@ -24,7 +24,7 @@ const BottomNav: React.FC = () => (
     </NavLink>
 
     <NavLink
-      to="/manage/categories"
+      to="/manage"
       className={({ isActive }) => `nav-item ${isActive || window.location.pathname.startsWith('/manage') ? 'active' : ''}`}
       aria-label="Manage items"
     >
@@ -33,5 +33,3 @@ const BottomNav: React.FC = () => (
     </NavLink>
   </nav>
 );
-
-export default BottomNav;

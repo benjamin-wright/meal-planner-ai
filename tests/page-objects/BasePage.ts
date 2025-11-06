@@ -30,6 +30,6 @@ export class BasePage {
 
   async navigateToManage(): Promise<void> {
     await this.manageNavButton.click();
-    await this.page.waitForURL('**/manage/**');
+    await this.page.waitForURL('**/manage');
   }
 }

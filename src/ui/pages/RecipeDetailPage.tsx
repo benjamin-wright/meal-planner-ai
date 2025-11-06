@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-const RecipeDetailPage: React.FC = () => {
+export const RecipeDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   return (
     <div className="page-container">
@@ -11,5 +11,3 @@ const RecipeDetailPage: React.FC = () => {
     </div>
   );
 };
-
-export default RecipeDetailPage;

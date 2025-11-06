@@ -1,9 +1,23 @@
 import React from 'react';
-const ItemsPage: React.FC = () => (
-  <div className="page-container">
-    <h1>Items</h1>
-    <p>Item management coming soon...</p>
-  </div>
-);
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon } from '../components/Icons';
 
-export default ItemsPage;
+export const ItemsPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <button
+          className="back-button"
+          onClick={() => navigate('/manage')}
+          aria-label="Back to Manage"
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Items</h1>
+      </div>
+      <p>Item management coming soon...</p>
+    </div>
+  );
+};

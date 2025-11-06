@@ -1,9 +1,23 @@
 import React from 'react';
-const UnitsPage: React.FC = () => (
-  <div className="page-container">
-    <h1>Units</h1>
-    <p>Unit management coming soon...</p>
-  </div>
-);
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon } from '../components/Icons';
 
-export default UnitsPage;
+export const UnitsPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <button
+          className="back-button"
+          onClick={() => navigate('/manage')}
+          aria-label="Back to Manage"
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Units</h1>
+      </div>
+      <p>Unit management coming soon...</p>
+    </div>
+  );
+};

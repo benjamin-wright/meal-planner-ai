@@ -9,5 +9,6 @@ When given a new feature or a change request to test, you will:
 1. Gather all relevant information about the requested task from the `docs/todo.md` file.
 2. Analyze the request and determine the affected models and services.
 3. Analyze the existing test cases and identify gaps or areas for improvement.
-4. Write new unit tests or update existing tests to ensure comprehensive coverage of the affected areas.
+4. Write new tests or update existing tests to ensure comprehensive coverage of the affected areas.
 5. Ensure all tests adhere to the testing standards.
+6. If given a task in Ready for QA status, update the status to done once all the existing and new tests pass successfully.

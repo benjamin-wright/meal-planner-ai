@@ -21,17 +21,7 @@ test.describe('Navigation Workflow', () => {
     const managePage = new ManagePage(page);
     await expect(managePage.heading).toContainText('Manage');
     await expect(managePage.manageNavButton).toHaveClass(/active/);
-    expect(page.url()).toContain('/manage/categories');
-
-    // Navigate through Manage tabs
-    await managePage.navigateToUnits();
-    await expect(managePage.contentHeading).toContainText('Units');
-
-    await managePage.navigateToItems();
-    await expect(managePage.contentHeading).toContainText('Items');
-
-    await managePage.navigateToRecipes();
-    await expect(managePage.contentHeading).toContainText('Recipes');
+    expect(page.url()).toContain('/manage');
 
     // Navigate back to Plan from Manage
     await managePage.navigateToPlan();
@@ -58,7 +48,7 @@ test.describe('Navigation Workflow', () => {
 
     // Navigate to Manage
     await shopPage.navigateToManage();
-    expect(page.url()).toContain('/manage/categories');
+    expect(page.url()).toContain('/manage');
 
     // Go back to Shop
     await page.goBack();
@@ -77,7 +67,7 @@ test.describe('Navigation Workflow', () => {
 
     // Go forward to Manage
     await page.goForward();
-    expect(page.url()).toContain('/manage/categories');
+    expect(page.url()).toContain('/manage');
     const managePage = new ManagePage(page);
     await expect(managePage.heading).toContainText('Manage');
   });

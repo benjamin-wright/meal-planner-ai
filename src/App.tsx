@@ -23,15 +23,15 @@ const App: React.FC = () => {
           {/* Shop */}
           <Route path="/shop" element={<ShopPage />} />
 
-          {/* Manage - Nested routes with tabs */}
-          <Route path="/manage" element={<ManagePage />}>
-            <Route index element={<Navigate to="/manage/categories" replace />} />
-            <Route path="categories" element={<CategoriesPage />} />
-            <Route path="units" element={<UnitsPage />} />
-            <Route path="items" element={<ItemsPage />} />
-            <Route path="recipes" element={<RecipesPage />} />
-            <Route path="recipes/:id" element={<RecipeDetailPage />} />
-          </Route>
+          {/* Manage Hub */}
+          <Route path="/manage" element={<ManagePage />} />
+          
+          {/* Manage Resources - Direct children of MainLayout */}
+          <Route path="/manage/categories" element={<CategoriesPage />} />
+          <Route path="/manage/units" element={<UnitsPage />} />
+          <Route path="/manage/items" element={<ItemsPage />} />
+          <Route path="/manage/recipes" element={<RecipesPage />} />
+          <Route path="/manage/recipes/:id" element={<RecipeDetailPage />} />
 
           {/* Fallback for unknown routes */}
           <Route path="*" element={<Navigate to="/" replace />} />

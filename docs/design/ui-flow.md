@@ -17,9 +17,9 @@ The application is structured around three primary navigation sections, each sup
 
 1. **Plan** - Meal calendar and planning interface (default landing page)
 2. **Shop** - Shopping list generation and management
-3. **Manage** - Manage categories, units, items, and recipes
+3. **Manage** - Hub page with links to dedicated management pages for categories, units, items, and recipes
 
-Management workflows (Categories, Units, Items, Recipes) are accessed via the Manage section. There is no separate Home/Dashboard page; summary information is surfaced contextually (e.g., at the top of the Plan page).
+Management workflows (Categories, Units, Items, Recipes) are accessed via dedicated pages linked from the Manage hub. There is no separate Home/Dashboard page; summary information is surfaced contextually (e.g., at the top of the Plan page).
 
 
 ## Application Structure
@@ -30,12 +30,13 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 - **Plan** (default landing): Meal calendar and planning interface
 - **Shop**: Shopping list generation and management
-- **Manage**: Menu or tabbed view for managing Categories, Units, Items, and Recipes
+- **Manage**: Hub page with navigation cards/links to dedicated management pages
 
 #### Navigation Pattern
 
 - Tapping a nav icon switches to the corresponding section.
-- "Manage" opens a sub-menu or tabbed view for object types.
+- "Manage" opens a hub page with navigation cards for Categories, Units, Items, and Recipes.
+- Each navigation card links to a dedicated management page for that resource type.
 - There is no separate Home/Dashboard page; summary cards (e.g., quick stats, recent activity) may be shown at the top of the Plan page or as overlays.
 
 ### Page Hierarchy
@@ -49,8 +50,12 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 └─────────────────────────────────────────────┘
   │         │         │
   ▼         ▼         ▼
-   Meal Plan   Shopping   Manage
-   Calendar     List      (Tabs: Categories, Units, Items, Recipes)
+Meal Plan  Shopping  Manage Hub
+Calendar    List      │
+                      ├─→ Categories Page
+                      ├─→ Units Page
+                      ├─→ Items Page
+                      └─→ Recipes Page
 ```
 
 ## Detailed Screen Flows
@@ -74,13 +79,41 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 2. Category Management
+### 2. Manage Hub
+
+**Purpose**: Provide navigation to dedicated management pages for different resource types.
+
+**Elements**:
+- Page header: "Manage"
+- (Optional) Summary cards at the top showing:
+  - Total categories count
+  - Total units count
+  - Total items count
+  - Total recipes count
+- Grid of navigation cards, each displaying:
+  - Icon representing the resource type
+  - Resource type name (Categories, Units, Items, Recipes)
+  - Count of resources (e.g., "12 categories")
+  - Arrow or chevron indicating it's a link
+- Cards should be large, touch-friendly buttons optimized for mobile
+
+**Navigation**:
+- Tap a card to navigate to the corresponding dedicated management page:
+  - Categories → Categories List Screen
+  - Units → Units List Screen
+  - Items → Items List Screen
+  - Recipes → Recipes List Screen
+
+---
+
+### 3. Category Management
 
 #### Categories List Screen
 
 **Purpose**: View and manage all supermarket categories.
 
 **Elements**:
+- Back button (returns to Manage Hub)
 - Page header: "Categories"
 - "Add Category" button
 - Sortable/draggable list of categories showing:
@@ -90,6 +123,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 - Sort order can be adjusted via drag-and-drop (updates `sortOrder` field)
 
 **Actions**:
+- **Back**: Returns to Manage Hub
 - **Add**: Opens "Add Category" modal/form
 - **Edit**: Opens "Edit Category" modal/form with pre-populated data
 - **Delete**: Shows confirmation dialog (only if no items reference this category)
@@ -112,13 +146,14 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 3. Unit Management
+### 4. Unit Management
 
 #### Units List Screen
 
 **Purpose**: View and manage measurement units.
 
 **Elements**:
+- Back button (returns to Manage Hub)
 - Page header: "Units"
 - "Add Unit" button
 - Filterable list of units with tabs/filters for:
@@ -133,6 +168,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
   - Edit and delete actions
 
 **Actions**:
+- **Back**: Returns to Manage Hub
 - **Filter**: Toggle between unit types
 - **Add**: Opens "Add Unit" modal/form
 - **Edit**: Opens "Edit Unit" modal/form with pre-populated data
@@ -156,13 +192,14 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 4. Item Management
+### 5. Item Management
 
 #### Items List Screen
 
 **Purpose**: View and manage all purchasable items (ingredients, ready meals, household items).
 
 **Elements**:
+- Back button (returns to Manage Hub)
 - Page header: "Items"
 - "Add Item" button
 - Filter controls:
@@ -177,6 +214,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
   - Edit and delete actions
 
 **Actions**:
+- **Back**: Returns to Manage Hub
 - **Search/Filter**: Real-time filtering by name, category, and type
 - **Add**: Opens "Add Item" form
 - **Edit**: Opens "Edit Item" form with pre-populated data
@@ -206,13 +244,14 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 5. Recipe Management
+### 6. Recipe Management
 
 #### Recipes List Screen
 
 **Purpose**: Browse and manage all recipes.
 
 **Elements**:
+- Back button (returns to Manage Hub)
 - Page header: "Recipes"
 - "Add Recipe" button
 - Filter/search controls:
@@ -228,6 +267,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
   - Quick actions: View, Edit, Delete
 
 **Actions**:
+- **Back**: Returns to Manage Hub
 - **Search/Filter**: Real-time filtering by name, dish type, and course
 - **Add**: Navigates to "Add Recipe" screen
 - **View**: Navigates to "Recipe Detail View"
@@ -305,7 +345,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 6. Meal Planning
+### 7. Meal Planning
 
 #### Meal Calendar View
 
@@ -396,7 +436,7 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ---
 
-### 7. Shopping List
+### 8. Shopping List
 
 #### Shopping List Generator
 
@@ -449,10 +489,11 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 1. User opens app for the first time
 2. Plan (Meal Calendar) page is shown, with prompts to set up data if empty
 3. User taps **Manage** in the bottom nav
-4. Selects **Categories** tab/menu, creates categories
-5. Selects **Units** tab/menu, creates units
-6. Selects **Items** tab/menu, adds ingredients
-7. Selects **Recipes** tab/menu, creates first recipe
+4. Manage Hub displays navigation cards for Categories, Units, Items, and Recipes
+5. User taps **Categories** card, creates categories, taps back to hub
+6. User taps **Units** card, creates units, taps back to hub
+7. User taps **Items** card, adds ingredients, taps back to hub
+8. User taps **Recipes** card, creates first recipe
 
 ### Workflow 2: Planning a Week of Meals
 
@@ -475,22 +516,24 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
 
 ### Workflow 4: Creating a New Recipe
 
-1. User taps **Manage** in the bottom nav, selects **Recipes**
-2. Taps "Add Recipe"
-3. Fills in details, adds ingredients and steps
-4. Saves recipe
-5. Recipe appears in Recipes List and is available for meal planning
+1. User taps **Manage** in the bottom nav
+2. Taps **Recipes** card on the Manage Hub
+3. Taps "Add Recipe" on the Recipes List screen
+4. Fills in details, adds ingredients and steps
+5. Saves recipe
+6. Recipe appears in Recipes List and is available for meal planning
 
 ### Workflow 5: Adding a Ready Meal Item and Planning It
 
-1. User taps **Manage** in the bottom nav, selects **Items**
-2. Taps "Add Item"
-3. Enters name, selects category and type "ready_meal"
-4. Fills in ready meal details
-5. Saves item
-6. Returns to Plan, adds a meal for a day
-7. Taps "Add Ready Meal" in meal form, selects the item
-8. Saves meal; ready meal appears in calendar and shopping list
+1. User taps **Manage** in the bottom nav
+2. Taps **Items** card on the Manage Hub
+3. Taps "Add Item" on the Items List screen
+4. Enters name, selects category and type "ready_meal"
+5. Fills in ready meal details
+6. Saves item
+7. Returns to Plan via bottom nav, adds a meal for a day
+8. Taps "Add Ready Meal" in meal form, selects the item
+9. Saves meal; ready meal appears in calendar and shopping list
 
 ---
 

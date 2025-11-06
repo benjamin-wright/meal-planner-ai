@@ -4,52 +4,64 @@ import { BasePage } from './BasePage';
 export class ManagePage extends BasePage {
   readonly heading: Locator;
   readonly pageContainer: Locator;
-  readonly manageTabs: Locator;
-  readonly categoriesTab: Locator;
-  readonly unitsTab: Locator;
-  readonly itemsTab: Locator;
-  readonly recipesTab: Locator;
-  readonly manageContent: Locator;
-  readonly contentHeading: Locator;
+  readonly manageHub: Locator;
+  readonly categoriesCard: Locator;
+  readonly unitsCard: Locator;
+  readonly itemsCard: Locator;
+  readonly recipesCard: Locator;
 
   constructor(page: Page) {
     super(page);
     this.pageContainer = page.locator('.page-container.manage-page');
     this.heading = this.pageContainer.locator('h1').first();
-    this.manageTabs = page.locator('.manage-tabs');
-    this.categoriesTab = this.manageTabs.locator('a', { hasText: 'Categories' });
-    this.unitsTab = this.manageTabs.locator('a', { hasText: 'Units' });
-    this.itemsTab = this.manageTabs.locator('a', { hasText: 'Items' });
-    this.recipesTab = this.manageTabs.locator('a', { hasText: 'Recipes' });
-    this.manageContent = page.locator('.manage-content');
-    this.contentHeading = this.manageContent.locator('h1');
+    this.manageHub = page.locator('.manage-hub');
+    this.categoriesCard = this.manageHub.locator('button[aria-label="Navigate to Categories"]');
+    this.unitsCard = this.manageHub.locator('button[aria-label="Navigate to Units"]');
+    this.itemsCard = this.manageHub.locator('button[aria-label="Navigate to Items"]');
+    this.recipesCard = this.manageHub.locator('button[aria-label="Navigate to Recipes"]');
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('/manage/categories');
+    await this.page.goto('/manage');
   }
 
   async navigateToCategories(): Promise<void> {
-    await this.categoriesTab.click();
+    await this.categoriesCard.click();
     await this.page.waitForURL('**/manage/categories');
-    await this.contentHeading.waitFor({ state: 'visible' });
   }
 
   async navigateToUnits(): Promise<void> {
-    await this.unitsTab.click();
+    await this.unitsCard.click();
     await this.page.waitForURL('**/manage/units');
-    await this.contentHeading.waitFor({ state: 'visible' });
   }
 
   async navigateToItems(): Promise<void> {
-    await this.itemsTab.click();
+    await this.itemsCard.click();
     await this.page.waitForURL('**/manage/items');
-    await this.contentHeading.waitFor({ state: 'visible' });
   }
 
   async navigateToRecipes(): Promise<void> {
-    await this.recipesTab.click();
+    await this.recipesCard.click();
     await this.page.waitForURL('**/manage/recipes');
-    await this.contentHeading.waitFor({ state: 'visible' });
+  }
+  
+  async getCategoryCount(): Promise<string> {
+    const text = await this.categoriesCard.locator('.nav-card-count').textContent();
+    return text || '';
+  }
+
+  async getUnitCount(): Promise<string> {
+    const text = await this.unitsCard.locator('.nav-card-count').textContent();
+    return text || '';
+  }
+
+  async getItemCount(): Promise<string> {
+    const text = await this.itemsCard.locator('.nav-card-count').textContent();
+    return text || '';
+  }
+
+  async getRecipeCount(): Promise<string> {
+    const text = await this.recipesCard.locator('.nav-card-count').textContent();
+    return text || '';
   }
 }
