@@ -9,7 +9,7 @@ export class PlanPage extends BasePage {
     this.heading = page.locator('.page-container:not(.manage-page)').locator('h1');
   }
 
-  async goto() {
+  async goto(): Promise<void> {
     await this.page.goto('/');
   }
 }

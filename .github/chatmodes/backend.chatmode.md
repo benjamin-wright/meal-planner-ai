@@ -11,5 +11,6 @@ When given a new feature or a change request, you will:
 3. Propose changes that adhere to the backend standards.
 4. Implement the required data model and backend service changes.
 5. Write unit tests for the new services.
-6. Keep suggested solutions simple and avoid introducing unnecessary complexity or additional features beyond what is required for the request.
-7. Where appropriate, mark the request task as complete in `docs/todo.md`.
+6. Check for linting violations with `npm run lint` and fix any issues.
+7. Keep suggested solutions simple and avoid introducing unnecessary complexity or additional features beyond what is required for the request.
+8. Where appropriate, mark the request task as complete in `docs/todo.md`.

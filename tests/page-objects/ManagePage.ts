@@ -25,29 +25,29 @@ export class ManagePage extends BasePage {
     this.contentHeading = this.manageContent.locator('h1');
   }
 
-  async goto() {
+  async goto(): Promise<void> {
     await this.page.goto('/manage/categories');
   }
 
-  async navigateToCategories() {
+  async navigateToCategories(): Promise<void> {
     await this.categoriesTab.click();
     await this.page.waitForURL('**/manage/categories');
     await this.contentHeading.waitFor({ state: 'visible' });
   }
 
-  async navigateToUnits() {
+  async navigateToUnits(): Promise<void> {
     await this.unitsTab.click();
     await this.page.waitForURL('**/manage/units');
     await this.contentHeading.waitFor({ state: 'visible' });
   }
 
-  async navigateToItems() {
+  async navigateToItems(): Promise<void> {
     await this.itemsTab.click();
     await this.page.waitForURL('**/manage/items');
     await this.contentHeading.waitFor({ state: 'visible' });
   }
 
-  async navigateToRecipes() {
+  async navigateToRecipes(): Promise<void> {
     await this.recipesTab.click();
     await this.page.waitForURL('**/manage/recipes');
     await this.contentHeading.waitFor({ state: 'visible' });

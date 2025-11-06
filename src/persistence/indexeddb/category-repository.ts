@@ -91,11 +91,11 @@ export class CategoryRepository implements ICategoryRepository {
         // Sort by sortOrder first (undefined sorts to end)
         const orderA = a.sortOrder ?? Number.MAX_SAFE_INTEGER;
         const orderB = b.sortOrder ?? Number.MAX_SAFE_INTEGER;
-        
+
         if (orderA !== orderB) {
           return orderA - orderB;
         }
-        
+
         // Then by name
         return a.name.localeCompare(b.name);
       });

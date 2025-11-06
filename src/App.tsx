@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from './ui/layouts';
 import {
@@ -11,17 +12,17 @@ import {
   RecipeDetailPage,
 } from './ui/pages';
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
           {/* Plan - Default Landing Page */}
           <Route path="/" element={<PlanPage />} />
-          
+
           {/* Shop */}
           <Route path="/shop" element={<ShopPage />} />
-          
+
           {/* Manage - Nested routes with tabs */}
           <Route path="/manage" element={<ManagePage />}>
             <Route index element={<Navigate to="/manage/categories" replace />} />
@@ -31,7 +32,7 @@ function App() {
             <Route path="recipes" element={<RecipesPage />} />
             <Route path="recipes/:id" element={<RecipeDetailPage />} />
           </Route>
-          
+
           {/* Fallback for unknown routes */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

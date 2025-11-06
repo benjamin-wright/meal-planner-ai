@@ -39,10 +39,10 @@ export function initializeDatabase(): Promise<IDBDatabase> {
       resolve(request.result);
     };
 
-    request.onupgradeneeded = (event) => {
+    request.onupgradeneeded = (event: IDBVersionChangeEvent): void => {
       const db = (event.target as IDBOpenDBRequest).result;
       const transaction = (event.target as IDBOpenDBRequest).transaction;
-      
+
       if (!transaction) {
         reject(new Error('No transaction available during upgrade'));
         return;
@@ -99,6 +99,7 @@ export function initializeDatabase(): Promise<IDBDatabase> {
  * @param db - The database instance to close
  */
 export function closeDatabase(db: IDBDatabase): void {
+  // ...existing code...
   db.close();
 }
 
@@ -203,8 +204,9 @@ export function executeCursorQuery<T>(
  * @returns Object with Date properties converted to strings
  */
 export function serializeDates<T extends Record<string, unknown>>(obj: T): Record<string, unknown> {
+  // ...existing code...
   const serialized: Record<string, unknown> = {};
-  
+
   for (const [key, value] of Object.entries(obj)) {
     if (value instanceof Date) {
       serialized[key] = value.toISOString();
@@ -214,7 +216,7 @@ export function serializeDates<T extends Record<string, unknown>>(obj: T): Recor
       serialized[key] = value;
     }
   }
-  
+
   return serialized;
 }
 
@@ -230,12 +232,12 @@ export function deserializeDates<T>(
   dateFields: string[]
 ): T {
   const deserialized: Record<string, unknown> = { ...obj };
-  
+
   for (const field of dateFields) {
     if (typeof deserialized[field] === 'string') {
       deserialized[field] = new Date(deserialized[field] as string);
     }
   }
-  
+
   return deserialized as T;
 }

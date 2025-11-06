@@ -18,17 +18,17 @@ export class BasePage {
     this.manageNavButton = this.bottomNav.locator('a[aria-label="Manage items"]');
   }
 
-  async navigateToPlan() {
+  async navigateToPlan(): Promise<void> {
     await this.planNavButton.click();
     await this.page.waitForURL((url) => !url.pathname.includes('/shop') && !url.pathname.includes('/manage'));
   }
 
-  async navigateToShop() {
+  async navigateToShop(): Promise<void> {
     await this.shopNavButton.click();
     await this.page.waitForURL('**/shop');
   }
 
-  async navigateToManage() {
+  async navigateToManage(): Promise<void> {
     await this.manageNavButton.click();
     await this.page.waitForURL('**/manage/**');
   }
