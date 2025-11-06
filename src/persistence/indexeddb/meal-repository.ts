@@ -81,6 +81,19 @@ export class MealRepository implements IMealRepository {
   }
 
   /**
+   * Count the total number of meals.
+   * 
+   * @returns A promise resolving to the count of meals
+   */
+  async count(): Promise<number> {
+    return await executeReadTransaction(
+      this.db,
+      STORES.MEALS,
+      (store) => store.count()
+    );
+  }
+
+  /**
    * Update an existing meal in the database.
    * 
    * @param meal - The meal with updated values

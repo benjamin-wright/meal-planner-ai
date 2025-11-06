@@ -105,6 +105,19 @@ export class CategoryRepository implements ICategoryRepository {
   }
 
   /**
+   * Count the total number of categories.
+   * 
+   * @returns A promise resolving to the count of categories
+   */
+  async count(): Promise<number> {
+    return await executeReadTransaction(
+      this.db,
+      STORES.CATEGORIES,
+      (store) => store.count()
+    );
+  }
+
+  /**
    * Update an existing category in the database.
    * 
    * @param category - The category with updated values

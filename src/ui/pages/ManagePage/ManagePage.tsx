@@ -26,17 +26,17 @@ export const ManagePage: React.FC = () => {
         await db.initialize();
 
         const [categories, units, items, recipes] = await Promise.all([
-          db.categories.getAll(),
-          db.units.getAll(),
-          db.items.getAll(),
-          db.recipes.getAll(),
+          db.categories.count(),
+          db.units.count(),
+          db.items.count(),
+          db.recipes.count(),
         ]);
 
         setCounts({
-          categories: categories.length,
-          units: units.length,
-          items: items.length,
-          recipes: recipes.length,
+          categories,
+          units,
+          items,
+          recipes,
         });
       } catch (error) {
         console.error('Failed to load resource counts:', error);

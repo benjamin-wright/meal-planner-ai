@@ -81,6 +81,19 @@ export class RecipeRepository implements IRecipeRepository {
   }
 
   /**
+   * Count the total number of recipes.
+   * 
+   * @returns A promise resolving to the count of recipes
+   */
+  async count(): Promise<number> {
+    return await executeReadTransaction(
+      this.db,
+      STORES.RECIPES,
+      (store) => store.count()
+    );
+  }
+
+  /**
    * Update an existing recipe in the database.
    * 
    * @param recipe - The recipe with updated values

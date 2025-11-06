@@ -52,6 +52,13 @@ export interface IBaseRepository<T> {
   getAll(): Promise<T[]>;
 
   /**
+   * Count the total number of entities of this type.
+   * 
+   * @returns A promise resolving to the count of entities
+   */
+  count(): Promise<number>;
+
+  /**
    * Update an existing entity in the data store.
    * 
    * @param entity - The entity with updated values (must include valid id)

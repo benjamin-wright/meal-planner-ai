@@ -87,6 +87,19 @@ export class ItemRepository implements IItemRepository {
   }
 
   /**
+   * Count the total number of items.
+   * 
+   * @returns A promise resolving to the count of items
+   */
+  async count(): Promise<number> {
+    return await executeReadTransaction(
+      this.db,
+      STORES.ITEMS,
+      (store) => store.count()
+    );
+  }
+
+  /**
    * Update an existing item in the database.
    * 
    * @param item - The item with updated values

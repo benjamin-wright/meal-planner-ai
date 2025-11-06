@@ -87,6 +87,19 @@ export class UnitRepository implements IUnitRepository {
   }
 
   /**
+   * Count the total number of units.
+   * 
+   * @returns A promise resolving to the count of units
+   */
+  async count(): Promise<number> {
+    return await executeReadTransaction(
+      this.db,
+      STORES.UNITS,
+      (store) => store.count()
+    );
+  }
+
+  /**
    * Update an existing unit in the database.
    * 
    * @param unit - The unit with updated values
