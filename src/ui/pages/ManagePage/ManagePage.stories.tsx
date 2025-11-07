@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
+import { fn } from 'storybook/test';
 import { ManagePageView } from './ManagePage-view';
 
 /**
@@ -18,6 +19,9 @@ const meta = {
       </BrowserRouter>
     ),
   ],
+  args: {
+    onNavigate: fn(),
+  },
 } satisfies Meta<typeof ManagePageView>;
 
 export default meta;
@@ -34,9 +38,6 @@ export const Default: Story = {
       items: 45,
       recipes: 23,
     },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
-    },
   },
 };
 
@@ -50,9 +51,6 @@ export const Empty: Story = {
       units: 0,
       items: 0,
       recipes: 0,
-    },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
     },
   },
 };
@@ -68,9 +66,6 @@ export const Loading: Story = {
       items: null,
       recipes: null,
     },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
-    },
   },
 };
 
@@ -84,9 +79,6 @@ export const Populated: Story = {
       units: 25,
       items: 150,
       recipes: 87,
-    },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
     },
   },
 };

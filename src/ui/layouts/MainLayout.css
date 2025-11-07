@@ -22,7 +22,6 @@
 }
 
 .page-container h1 {
-  margin: 0 0 var(--spacing-md) 0;
   font-size: 1.5rem;
   color: var(--color-text-primary);
 }

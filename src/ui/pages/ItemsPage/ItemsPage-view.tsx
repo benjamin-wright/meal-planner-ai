@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeftIcon } from '../../components/icons/ArrowLeftIcon';
+import { PageHeader } from '../../components';
 
 export interface ItemsPageViewProps {
   onBack: () => void;
@@ -8,16 +8,7 @@ export interface ItemsPageViewProps {
 export const ItemsPageView: React.FC<ItemsPageViewProps> = ({ onBack }) => {
   return (
     <div className="page-container">
-      <div className="page-header">
-        <button
-          className="back-button"
-          onClick={onBack}
-          aria-label="Back to Manage"
-        >
-          <ArrowLeftIcon />
-        </button>
-        <h1>Items</h1>
-      </div>
+      <PageHeader title="Items" onBack={onBack} />
       <p>Item management coming soon...</p>
     </div>
   );
