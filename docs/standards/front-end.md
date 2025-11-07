@@ -19,6 +19,7 @@
       - ./{PAGE_NAME}.stories.tsx - page-level story using the `{PAGE_NAME}-view.tsx` component
         - ./components - subdirectory for page-specific components
   - ./layout - router layout components
+  - ./providers - dependency injection for persistence, alerting, and other cross-cutting concerns
 - Icons should be embedded as SVG React components, with inspiration available at https://reactsvgicons.com/
 - Animations should be implemented using Framer-motion: (reference: https://motion.dev/docs/react)
 - Drag and drop in lists should be implemented using the Framer-motion Reorder component: (reference: https://motion.dev/docs/react-reorder)
