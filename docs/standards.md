@@ -10,3 +10,5 @@ This application is built using the following standards:
 - [Back End](./standards/back-end.md): standards related to the data model and business logic
 - [Testing](./standards/testing.md): standards related to linting and testing
 - [Documenation](./standards/docs.md): standards related to project documentation
+
+**Note**: AI agent collaboration protocols are defined in each agent's chatmode file in `.github/chatmodes/`.
