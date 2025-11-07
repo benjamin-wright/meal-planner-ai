@@ -1,11 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ItemsPageView } from './ItemsPage-view';
+import { useManageNavigation } from '../../hooks';
 
 export const ItemsPage: React.FC = () => {
-  const navigate = useNavigate();
+  const { navigateBack } = useManageNavigation();
   
   // TODO: Add data loading logic here
 
-  return <ItemsPageView onBack={() => navigate('/manage')} />;
+  return <ItemsPageView onBack={navigateBack} />;
 };

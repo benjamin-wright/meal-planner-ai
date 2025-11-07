@@ -1,11 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UnitsPageView } from './UnitsPage-view';
+import { useManageNavigation } from '../../hooks';
 
 export const UnitsPage: React.FC = () => {
-  const navigate = useNavigate();
+  const { navigateBack } = useManageNavigation();
   
   // TODO: Add data loading logic here
 
-  return <UnitsPageView onBack={() => navigate('/manage')} />;
+  return <UnitsPageView onBack={navigateBack} />;
 };
