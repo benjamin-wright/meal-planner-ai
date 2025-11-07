@@ -1,8 +1,8 @@
 import React from 'react';
-import { CategoryIcon } from '../../components/CategoryIcon';
-import { UnitIcon } from '../../components/UnitIcon';
-import { ItemIcon } from '../../components/ItemIcon';
-import { RecipeIcon } from '../../components/RecipeIcon';
+import { CategoryIcon } from '../../components/icons/CategoryIcon';
+import { UnitIcon } from '../../components/icons/UnitIcon';
+import { ItemIcon } from '../../components/icons/ItemIcon';
+import { RecipeIcon } from '../../components/icons/RecipeIcon';
 import { NavigationCard } from './components/NavigationCard';
 import './ManagePage.css';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronRightIcon } from '../../../components/ChevronRightIcon';
+import { ChevronRightIcon } from '../../../components/icons/ChevronRightIcon';
 
 export interface NavigationCardProps {
   title: string;

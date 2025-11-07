@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeftIcon } from '../../components/ArrowLeftIcon';
+import { ArrowLeftIcon } from '../../components/icons/ArrowLeftIcon';
 
 export interface RecipesPageViewProps {
   onBack: () => void;

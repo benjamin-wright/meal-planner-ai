@@ -18,7 +18,6 @@ const meta = {
       </BrowserRouter>
     ),
   ],
-  tags: ['autodocs'],
 } satisfies Meta<typeof ManagePageView>;
 
 export default meta;

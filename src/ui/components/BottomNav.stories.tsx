@@ -15,9 +15,7 @@ const meta = {
   decorators: [
     (Story) => (
       <BrowserRouter>
-        <div style={{ marginTop: '400px' }}>
-          <Story />
-        </div>
+        <Story />
       </BrowserRouter>
     ),
   ],

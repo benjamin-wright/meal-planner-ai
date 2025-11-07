@@ -11,7 +11,7 @@
   - should be modular, reusable, and well-documented.
   - each component should have its own file
 - directory structure:
-  - ./components - re-usable general purpose components
+  - ./components - re-usable general purpose components, nested based on kind (icons, inputs, etc.)
   - ./pages
     - ./{PAGE_NAME}
       - ./{PAGE_NAME}.tsx - smart page-level component
@@ -31,6 +31,7 @@
   - A stories file should be provided for each presentation component, with individual stories for each significant visual mode
   - Don't create stories for light and dark mode, storybook should be configured to respond to the browser preference and the components should follow suit
   - Storybook's viewport should be configured to show a mobile view by default.
+  - Only use autodocs for small components with multiple states, don't use it for pages where the viewport size is more important.
 - Offline first: Use a PWA-centric approach and local persistence to retain full functionality when offline
 - Accessibility, for humans and for playwright
   - all non-standard input elements should include role and aria-label annotations
