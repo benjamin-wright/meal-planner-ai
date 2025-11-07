@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
-import React from 'react';
 import { ManagePageView } from './ManagePage-view';
 
 /**
@@ -19,9 +18,6 @@ const meta = {
       </BrowserRouter>
     ),
   ],
-  parameters: {
-    layout: 'fullscreen',
-  },
   tags: ['autodocs'],
 } satisfies Meta<typeof ManagePageView>;
 
@@ -92,77 +88,6 @@ export const Populated: Story = {
     },
     onNavigate: (_path: string) => {
       // Navigation handler for Storybook
-    },
-  },
-};
-
-/**
- * Dark mode view
- */
-export const DarkMode: Story = {
-  args: {
-    counts: {
-      categories: 8,
-      units: 12,
-      items: 45,
-      recipes: 23,
-    },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
-    },
-  },
-  parameters: {
-    backgrounds: { default: 'dark' },
-  },
-  decorators: [
-    (Story) => (
-      <div style={{ backgroundColor: '#1a1a1a', minHeight: '100vh' }}>
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-/**
- * Mobile viewport (default target)
- */
-export const Mobile: Story = {
-  args: {
-    counts: {
-      categories: 8,
-      units: 12,
-      items: 45,
-      recipes: 23,
-    },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
-    },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-  },
-};
-
-/**
- * Tablet viewport showing 2-column grid
- */
-export const Tablet: Story = {
-  args: {
-    counts: {
-      categories: 8,
-      units: 12,
-      items: 45,
-      recipes: 23,
-    },
-    onNavigate: (_path: string) => {
-      // Navigation handler for Storybook
-    },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'tablet',
     },
   },
 };

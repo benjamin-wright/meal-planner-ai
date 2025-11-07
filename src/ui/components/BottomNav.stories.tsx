@@ -21,9 +21,6 @@ const meta = {
       </BrowserRouter>
     ),
   ],
-  parameters: {
-    layout: 'fullscreen',
-  },
   tags: ['autodocs'],
 } satisfies Meta<typeof BottomNav>;
 
@@ -34,41 +31,3 @@ type Story = StoryObj<typeof meta>;
  * Default state of the bottom navigation
  */
 export const Default: Story = {};
-
-/**
- * Navigation in dark mode
- */
-export const DarkMode: Story = {
-  parameters: {
-    backgrounds: { default: 'dark' },
-  },
-  decorators: [
-    (Story) => (
-      <div style={{ backgroundColor: '#1a1a1a', minHeight: '100vh', paddingTop: '400px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-/**
- * Mobile viewport (default target)
- */
-export const Mobile: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-  },
-};
-
-/**
- * Tablet viewport
- */
-export const Tablet: Story = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'tablet',
-    },
-  },
-};

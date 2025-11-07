@@ -10,25 +10,19 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: var(--spacing-lg, 1.5rem);
+  padding-bottom: var(--spacing-lg);
 }
 
 /* Ensure pages have consistent padding */
 .page-container {
-  padding: var(--spacing-md, 1rem);
+  padding: var(--spacing-md);
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
 }
 
 .page-container h1 {
-  margin: 0 0 var(--spacing-md, 1rem) 0;
+  margin: 0 0 var(--spacing-md) 0;
   font-size: 1.5rem;
-  color: var(--color-text-primary, #000);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page-container h1 {
-    color: var(--color-text-primary-dark, #fff);
-  }
+  color: var(--color-text-primary);
 }
