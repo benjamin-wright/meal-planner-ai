@@ -14,14 +14,14 @@ This document tracks the implementation tasks for the meal planning application.
 Create a reusable PageHeader component to eliminate duplicate header markup across the four manage sub-pages (Categories, Units, Items, Recipes).
 
 ### 2. Create useManageNavigation Hook
-**Status:** Not Started  
+**Status:** ✅ Complete  
 **Agent:** Frontend  
 **Task Doc:** [create-manage-navigation-hook.md](./todos/create-manage-navigation-hook.md)
 
 Create a custom hook to eliminate duplicate navigation logic in the four manage sub-page smart components.
 
 ### 3. Refactor Icon Components
-**Status:** Not Started  
+**Status:** ✅ Complete  
 **Agent:** Frontend  
 **Task Doc:** [refactor-icon-components.md](./todos/refactor-icon-components.md)
 
