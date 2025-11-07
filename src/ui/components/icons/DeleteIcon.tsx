@@ -1,0 +1,10 @@
+import React from 'react';
+import { Icon, type IconProps } from './Icon';
+
+export const DeleteIcon: React.FC<IconProps> = ({ className }) => {
+  return (
+    <Icon className={className}>
+      <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" />
+    </Icon>
+  );
+};

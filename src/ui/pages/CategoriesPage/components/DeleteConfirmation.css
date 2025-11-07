@@ -1,0 +1,151 @@
+.delete-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  animation: fadeIn 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .delete-confirmation-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.delete-confirmation-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  animation: scaleIn 0.2s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.delete-confirmation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.delete-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #fee;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .delete-icon {
+    background-color: #4a1a1a;
+    color: #ff8888;
+  }
+}
+
+.delete-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.delete-message {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.category-name-display {
+  color: var(--color-text);
+  text-transform: capitalize;
+}
+
+.delete-error {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: var(--radius-md);
+  color: #c00;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+@media (prefers-color-scheme: dark) {
+  .delete-error {
+    background-color: #4a1a1a;
+    border-color: #8a2a2a;
+    color: #ff8888;
+  }
+}
+
+.delete-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: var(--spacing-sm);
+}
+
+.delete-button {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+}
+
+.cancel-delete-button {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.cancel-delete-button:hover {
+  background-color: var(--color-border);
+}
+
+.cancel-delete-button:active {
+  transform: scale(0.98);
+}
+
+.confirm-delete-button {
+  background-color: #dc2626;
+  color: white;
+}
+
+.confirm-delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.confirm-delete-button:active {
+  transform: scale(0.98);
+}

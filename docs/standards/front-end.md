@@ -7,9 +7,16 @@
 - Separate state management from presentation logic:
   - Smart page-level components fetch and manipulate state and pass loaded objects, but have no visualisation logic
   - Dumb presentation components contain all the visualisation logic, only managing internal, transient state
+- Forms and editing:
+  - All resource creation and editing should use dedicated routable pages, not modal dialogs
+  - This enables deep linking, proper browser history, and navigation chaining
+  - Edit pages should accept a `returnTo` query parameter for navigation after save/cancel
+  - Pages creating resources should accept a `preselect=true` parameter to pass the created resource back to the caller
+  - Use query parameters or React Router location state to preserve context during chained navigation
 - Components:
   - should be modular, reusable, and well-documented.
   - each component should have its own file
+  - should be either small and focused, or composed of other components.
 - directory structure:
   - ./components - re-usable general purpose components, nested based on kind (icons, inputs, etc.)
   - ./pages
@@ -33,6 +40,7 @@
   - Don't create stories for light and dark mode, storybook should be configured to respond to the browser preference and the components should follow suit
   - Storybook's viewport should be configured to show a mobile view by default.
   - Only use autodocs for small components with multiple states, don't use it for pages where the viewport size is more important.
+  - Use storybook actions rather than console.log
 - Offline first: Use a PWA-centric approach and local persistence to retain full functionality when offline
 - Accessibility, for humans and for playwright
   - all non-standard input elements should include role and aria-label annotations

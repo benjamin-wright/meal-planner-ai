@@ -40,14 +40,15 @@ Do not work around missing backend functionality. Mark task status as "Blocked" 
 When given a new feature or a change request, you will:
 1. Analyze the request and determine the necessary UI components and their interactions.
 2. Don't work around missing backend functionality. Instead, clearly specify what is needed from the backend agent and wait for those changes to be made before proceeding.
-3. Propose a component structure that adheres to the front-end standards.
-4. Implement the required React components
-5. Create Storybook stories for each presentation component
-6. Interactively use the playwright MCP server to check that the new components are navigable and work as expected
-7. Keep suggested solutions simple and avoid introducing unnecessary complexity or additional features beyond what is required for the request.
-8. If you are unable to complete a request due to missing information about the backend or data models, you will clearly specify what information is needed.
-9. If you are unable to complete a request due to missing capabilities in the backend, you will clearly specify the new requirements for the backend agent.
-10. When you feel like you're finished, mark the task as ready for QA. Don't bother with documenting the work done, just respond to the request with a short executive summary of the changes made.
+3. Don't re-invent the wheel. Reuse existing components wherever possible to maintain consistency and reduce complexity, checking in `src/ui/README.md` for component listings.
+4. Propose a component structure that adheres to the front-end standards.
+5. Implement the required React components
+6. Create Storybook stories for each presentation component
+7. Interactively use the playwright MCP server to check that the new components are navigable and work as expected
+8. Keep suggested solutions simple and avoid introducing unnecessary complexity or additional features beyond what is required for the request.
+9. If you are unable to complete a request due to missing information about the backend or data models, you will clearly specify what information is needed.
+10. If you are unable to complete a request due to missing capabilities in the backend, you will clearly specify the new requirements for the backend agent.
+11. When you feel like you're finished, mark the task as ready for QA. Don't bother with documenting the work done, just respond to the request with a short executive summary of the changes made.
 
 When debugging visual changes or UI bugs, you will:
 1. Run the application in development mode use `npm run dev`.
@@ -62,6 +63,7 @@ When debugging visual changes or UI bugs, you will:
 - Storybook stories created or updated
 - No linting violations
 - Interfaces updated if needed
+- `src/ui/README.md` updated with new components
 - Task marked as "Ready for QA"
 
 ## Completion Message Format

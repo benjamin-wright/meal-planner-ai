@@ -21,6 +21,27 @@ The application is structured around three primary navigation sections, each sup
 
 Management workflows (Categories, Units, Items, Recipes) are accessed via dedicated pages linked from the Manage hub. There is no separate Home/Dashboard page; summary information is surfaced contextually (e.g., at the top of the Plan page).
 
+### Edit Page Navigation Pattern
+
+All resource creation and editing is handled through dedicated routable pages rather than modal dialogs. This approach enables:
+
+1. **Deep linking**: Users can bookmark or share specific edit pages
+2. **Browser history integration**: Back button works naturally
+3. **Navigation chaining**: Complex workflows can chain multiple edit pages together
+
+**Chained Navigation Example**:
+When editing a recipe, if the user needs to create a new ingredient item, they can:
+1. Click "Add New Item" from the Recipe Edit page
+2. Navigate to `/manage/items/add?returnTo=/manage/recipes/123/edit&preselect=true`
+3. After saving the new item, return to the Recipe Edit page with the new item pre-selected
+
+**Implementation Pattern**:
+- Edit pages accept a `returnTo` query parameter specifying where to navigate after save/cancel
+- Pages that create resources accept a `preselect=true` parameter to indicate the created resource should be passed back
+- Upon save with preselect enabled, the page redirects to the return path with `?newItemId={id}` (or similar) appended
+- The calling page reads the new resource ID from the query parameter and auto-selects it in the appropriate control
+- Form state during chained navigation can be preserved using session storage or React Router location state
+
 
 ## Application Structure
 
@@ -52,10 +73,12 @@ The application uses a persistent, mobile-style **bottom navigation bar** with t
   ▼         ▼         ▼
 Meal Plan  Shopping  Manage Hub
 Calendar    List      │
-                      ├─→ Categories Page
-                      ├─→ Units Page
-                      ├─→ Items Page
-                      └─→ Recipes Page
+│                     ├─→ Categories Page ─→ Add/Edit Category Page
+│                     ├─→ Units Page ─→ Add/Edit Unit Page
+│                     ├─→ Items Page ─→ Add/Edit Item Page
+│                     └─→ Recipes Page ─→ Add/Edit Recipe Page
+│                                           └─→ Recipe Detail Page
+└─→ Add/Edit Meal Page
 ```
 
 ## Detailed Screen Flows
@@ -124,14 +147,20 @@ Calendar    List      │
 
 **Actions**:
 - **Back**: Returns to Manage Hub
-- **Add**: Opens "Add Category" modal/form
-- **Edit**: Opens "Edit Category" modal/form with pre-populated data
+- **Add**: Navigates to Add Category Page (`/manage/categories/add`)
+- **Edit**: Navigates to Edit Category Page (`/manage/categories/:id/edit`) with pre-populated data
 - **Delete**: Shows confirmation dialog (only if no items reference this category)
 - **Reorder**: Drag and drop to adjust sort order
 
-#### Add/Edit Category Form
+#### Add/Edit Category Page
+
+**Purpose**: Dedicated page for creating or editing a category.
+
+**Route**: `/manage/categories/add` or `/manage/categories/:id/edit`
 
 **Elements**:
+- Back button (returns to Categories List)
+- Page header: "Add Category" or "Edit Category"
 - Name input (required)
 - Sort order input (optional, numeric)
 - Save and Cancel buttons
@@ -141,8 +170,13 @@ Calendar    List      │
 - Name cannot be empty or whitespace only
 
 **Navigation**:
-- Save: Returns to Categories List with success message
-- Cancel: Returns to Categories List without changes
+- **Save**: Returns to Categories List with success message
+- **Cancel**: Returns to Categories List without changes
+- **Back**: Returns to Categories List without changes
+
+**State Management**:
+- Return path defaults to Categories List (`/manage/categories`)
+- Can accept a `returnTo` query parameter for chained navigation (future enhancement)
 
 ---
 
@@ -170,13 +204,19 @@ Calendar    List      │
 **Actions**:
 - **Back**: Returns to Manage Hub
 - **Filter**: Toggle between unit types
-- **Add**: Opens "Add Unit" modal/form
-- **Edit**: Opens "Edit Unit" modal/form with pre-populated data
+- **Add**: Navigates to Add Unit Page (`/manage/units/add`)
+- **Edit**: Navigates to Edit Unit Page (`/manage/units/:id/edit`) with pre-populated data
 - **Delete**: Shows confirmation dialog (only if no recipes use this unit)
 
-#### Add/Edit Unit Form
+#### Add/Edit Unit Page
+
+**Purpose**: Dedicated page for creating or editing a unit.
+
+**Route**: `/manage/units/add` or `/manage/units/:id/edit`
 
 **Elements**:
+- Back button (returns to Units List)
+- Page header: "Add Unit" or "Edit Unit"
 - Name input (required)
 - Abbreviation input (optional)
 - Type selector (required): weight, volume, count
@@ -187,8 +227,13 @@ Calendar    List      │
 - Type must be selected
 
 **Navigation**:
-- Save: Returns to Units List with success message
-- Cancel: Returns to Units List without changes
+- **Save**: Returns to Units List with success message
+- **Cancel**: Returns to Units List without changes
+- **Back**: Returns to Units List without changes
+
+**State Management**:
+- Return path defaults to Units List (`/manage/units`)
+- Can accept a `returnTo` query parameter for chained navigation (future enhancement)
 
 ---
 
@@ -216,15 +261,22 @@ Calendar    List      │
 **Actions**:
 - **Back**: Returns to Manage Hub
 - **Search/Filter**: Real-time filtering by name, category, and type
-- **Add**: Opens "Add Item" form
-- **Edit**: Opens "Edit Item" form with pre-populated data
+- **Add**: Navigates to Add Item Page (`/manage/items/add`)
+- **Edit**: Navigates to Edit Item Page (`/manage/items/:id/edit`) with pre-populated data
 - **Delete**: Shows confirmation dialog (prevented if item is used in recipes or meals)
 
-#### Add/Edit Item Form
+#### Add/Edit Item Page
+
+**Purpose**: Dedicated page for creating or editing an item.
+
+**Route**: `/manage/items/add` or `/manage/items/:id/edit`
 
 **Elements**:
+- Back button (returns to Items List or return path)
+- Page header: "Add Item" or "Edit Item"
 - Name input (required)
 - Category selector (required, dropdown of categories)
+  - "Add New Category" link (navigates to Add Category Page with return path)
 - Item type selector (required): ingredient, ready_meal, inedible
 - Conditional "Ready Meal Details" section (shown only if type = ready_meal):
   - Dish selector: breakfast, lunch, dinner, dessert
@@ -239,8 +291,16 @@ Calendar    List      │
 - If item type is ready_meal, all ready meal fields are required (except prep time)
 
 **Navigation**:
-- Save: Returns to Items List with success message
-- Cancel: Returns to Items List without changes
+- **Save**: Returns to Items List (or return path) with success message. If a `preselect=true` query param is present and a return path is provided, the newly created item ID is passed back via URL state
+- **Cancel**: Returns to Items List (or return path) without changes
+- **Back**: Returns to Items List (or return path) without changes
+- **Add New Category**: Navigates to Add Category Page with `returnTo=/manage/items/add` (or current edit path)
+
+**State Management**:
+- Return path defaults to Items List (`/manage/items`)
+- Accepts a `returnTo` query parameter for chained navigation (e.g., from Recipe Edit page)
+- Accepts a `preselect=true` query parameter to indicate the created item should be passed back to the caller
+- On save with preselect enabled, redirects to return path with `?newItemId={id}` appended
 
 ---
 
@@ -269,16 +329,19 @@ Calendar    List      │
 **Actions**:
 - **Back**: Returns to Manage Hub
 - **Search/Filter**: Real-time filtering by name, dish type, and course
-- **Add**: Navigates to "Add Recipe" screen
-- **View**: Navigates to "Recipe Detail View"
-- **Edit**: Navigates to "Edit Recipe" screen
+- **Add**: Navigates to Add Recipe Page (`/manage/recipes/add`)
+- **View**: Navigates to Recipe Detail Page (`/manage/recipes/:id`)
+- **Edit**: Navigates to Edit Recipe Page (`/manage/recipes/:id/edit`)
 - **Delete**: Shows confirmation dialog (prevented if recipe is used in any meals)
 
 #### Recipe Detail View
 
 **Purpose**: Display complete recipe information in read-only format.
 
+**Route**: `/manage/recipes/:id`
+
 **Elements**:
+- Back button (returns to Recipes List)
 - Recipe name (header)
 - Description
 - Metadata badges: dish type, course, servings, prep time, cook time, total time
@@ -287,20 +350,27 @@ Calendar    List      │
   - Grouped or ungrouped display
 - Numbered steps list
 - Action buttons:
-  - "Edit Recipe"
-  - "Add to Meal" (quick-add to meal planner)
+  - "Edit Recipe" (navigates to Edit Recipe Page)
+  - "Add to Meal" (quick-add to meal planner - navigates to Add Meal Page with recipe pre-selected)
   - "Back to Recipes"
 
 **Navigation**:
-- Edit: Opens Edit Recipe screen
-- Add to Meal: Opens meal planning interface with this recipe pre-selected
-- Back: Returns to Recipes List
+- **Edit**: Navigates to Edit Recipe Page (`/manage/recipes/:id/edit`)
+- **Add to Meal**: Navigates to Add Meal Page (`/plan/meals/add?recipeId={id}`)
+- **Back**: Returns to Recipes List
+- **Back button**: Returns to Recipes List or previous page
 
-#### Add/Edit Recipe Screen
+#### Add/Edit Recipe Page
 
-**Purpose**: Create or modify a recipe with full details.
+**Purpose**: Dedicated page for creating or editing a recipe with full details.
+
+**Route**: `/manage/recipes/add` or `/manage/recipes/:id/edit`
 
 **Elements**:
+
+**Header**:
+- Back button (returns to previous page)
+- Page header: "Add Recipe" or "Edit Recipe"
 
 **Basic Information Section**:
 - Name input (required)
@@ -312,7 +382,8 @@ Calendar    List      │
 - Cook time input (optional, minutes)
 
 **Ingredients Section**:
-- "Add Ingredient" button
+- Section header with "Add Ingredient" button
+- "Add New Item" link (navigates to Add Item Page with return path and preselect)
 - List of ingredient rows, each showing:
   - Item selector (dropdown/autocomplete of items with `itemType = ingredient`)
   - Unit selector (dropdown of units)
@@ -321,7 +392,7 @@ Calendar    List      │
 - Drag-and-drop to reorder ingredients
 
 **Steps Section**:
-- "Add Step" button
+- Section header with "Add Step" button
 - List of step inputs (text areas), each with:
   - Step number (auto-numbered)
   - Step text input
@@ -340,8 +411,16 @@ Calendar    List      │
 - All step fields must be non-empty
 
 **Navigation**:
-- Save: Returns to Recipe Detail View (for new recipes) or Recipes List (for edits) with success message
-- Cancel: Returns to previous screen without changes
+- **Save**: Returns to Recipe Detail Page (for new recipes) or Recipes List (for edits) with success message
+- **Cancel**: Returns to previous screen without changes
+- **Back**: Returns to previous screen without changes
+- **Add New Item**: Navigates to Add Item Page with `returnTo=/manage/recipes/add` (or current edit path) and `preselect=true`
+- **On return from Add Item** (with `newItemId`): Pre-selects the newly created item in the ingredient selector
+
+**State Management**:
+- Return path defaults to Recipe Detail Page (for edits) or Recipes List (for new recipes)
+- When navigated to from Add Item page with `?newItemId={id}`, automatically pre-selects that item in the next ingredient row
+- Preserves form state during navigation to/from Add Item page (consider using session storage or URL state)
 
 ---
 
@@ -369,13 +448,13 @@ Calendar    List      │
 **Actions**:
 - **Navigate**: Previous/next period, or jump to today
 - **View Meal**: Click on meal card to view details (opens Meal Detail modal)
-- **Add Meal**: Click "Add Meal" on a specific day (opens Add Meal form)
+- **Add Meal**: Click "Add Meal" on a specific day (navigates to Add Meal Page)
 - **Generate Shopping List**: Creates shopping list from all meals in visible date range
 
 **Navigation**:
-- Add Meal: Opens Add Meal form for selected date
-- View Meal: Opens Meal Detail modal
-- Generate Shopping List: Navigates to Shopping List Generator with date range pre-set
+- **Add Meal**: Navigates to Add Meal Page (`/plan/meals/add?date={selectedDate}`) for selected date
+- **View Meal**: Opens Meal Detail modal
+- **Generate Shopping List**: Navigates to Shopping List Generator with date range pre-set
 
 #### Meal Detail Modal
 
@@ -396,22 +475,25 @@ Calendar    List      │
 
 **Navigation**:
 - View Recipe: Opens Recipe Detail View in new context or modal
-- Edit: Opens Edit Meal form
+- **Edit**: Navigates to Edit Meal Page (`/plan/meals/:id/edit`)
 - Delete: Shows confirmation, then removes meal and refreshes calendar
 - Close: Returns to calendar
 
-#### Add/Edit Meal Form
+#### Add/Edit Meal Page
 
-**Purpose**: Create or modify a scheduled meal.
+**Purpose**: Dedicated page for creating or modifying a scheduled meal.
+
+**Route**: `/plan/meals/add` or `/plan/meals/:id/edit`
 
 **Elements**:
-- Date picker (required, pre-filled when adding from calendar)
+- Back button (returns to Meal Calendar)
+- Page header: "Add Meal" or "Edit Meal"
+- Date picker (required, pre-filled when adding from calendar via query param)
 - Servings input (required, positive integer)
 - Notes textarea (optional)
 
 **Dishes Section**:
-- "Add Recipe" button
-- "Add Ready Meal" button
+- Section header with "Add Recipe" and "Add Ready Meal" buttons
 - List of selected dishes showing:
   - Type indicator (recipe or ready meal)
   - Name
@@ -431,8 +513,14 @@ Calendar    List      │
 - Must have at least one dish (recipe or ready meal)
 
 **Navigation**:
-- Save: Returns to Meal Calendar View with success message
-- Cancel: Returns to Meal Calendar View without changes
+- **Save**: Returns to Meal Calendar View with success message
+- **Cancel**: Returns to Meal Calendar View without changes
+- **Back**: Returns to Meal Calendar View without changes
+
+**State Management**:
+- Return path defaults to Meal Calendar View (`/`)
+- Accepts a `date` query parameter to pre-fill the date picker
+- Accepts a `recipeId` query parameter to pre-select a recipe (e.g., from Recipe Detail "Add to Meal" button)
 
 ---
 

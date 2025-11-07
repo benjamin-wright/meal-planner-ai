@@ -25,7 +25,7 @@ Represents an aisle or section in a supermarket, used to organize items for effi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier (UUID) |
-| `name` | string | Yes | Display name (e.g., "Dairy", "Produce", "Bakery", "Cleaning Supplies") |
+| `name` | string | Yes | Display name (stored as lowercase, e.g., "dairy", "produce", "bakery", "cleaning supplies"). CSS should be used for presentation casing. |
 | `sortOrder` | number | No | Optional ordering for display in shopping lists |
 | `createdAt` | timestamp | Yes | Creation timestamp |
 | `updatedAt` | timestamp | Yes | Last modification timestamp |
@@ -35,12 +35,14 @@ Represents an aisle or section in a supermarket, used to organize items for effi
 ```json
 {
   "id": "cat-001",
-  "name": "Dairy & Eggs",
+  "name": "dairy & eggs",
   "sortOrder": 1,
   "createdAt": "2025-11-04T10:00:00Z",
   "updatedAt": "2025-11-04T10:00:00Z"
 }
 ```
+
+**Note:** Category names are automatically converted to lowercase before storage to ensure consistent data normalization. The UI should apply desired casing through CSS (e.g., `text-transform: capitalize`).
 
 ### Unit
 
@@ -51,8 +53,8 @@ Defines custom measurement units for ingredients, supporting weight, volume, or 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier (UUID) |
-| `name` | string | Yes | Display name (e.g., "grams", "slices", "cans") |
-| `abbreviation` | string | No | Short form (e.g., "g", "ml", "pcs") |
+| `name` | string | Yes | Display name (stored as lowercase, e.g., "grams", "slices", "cans"). CSS should be used for presentation casing. |
+| `abbreviation` | string | No | Short form (e.g., "g", "ml", "pcs"). Stored as-is to preserve meaningful casing. |
 | `type` | enum | Yes | Measurement type: `weight`, `volume`, or `count` |
 | `createdAt` | timestamp | Yes | Creation timestamp |
 | `updatedAt` | timestamp | Yes | Last modification timestamp |
@@ -70,6 +72,8 @@ Defines custom measurement units for ingredients, supporting weight, volume, or 
 }
 ```
 
+**Note:** Unit names are automatically converted to lowercase before storage. Abbreviations preserve their original casing as it may be semantically meaningful (e.g., "mL" vs "ml").
+
 ### Item
 
 Represents a product that can be purchased at the supermarket. Items can be ingredients for recipes, ready-to-eat meals, or non-food household items.
@@ -79,7 +83,7 @@ Represents a product that can be purchased at the supermarket. Items can be ingr
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier (UUID) |
-| `name` | string | Yes | Item name (e.g., "Carrots", "Microwaveable Curry", "Dish Soap") |
+| `name` | string | Yes | Item name (stored as lowercase, e.g., "carrots", "microwaveable curry", "dish soap"). CSS should be used for presentation casing. |
 | `categoryId` | string | Yes | Reference to Category entity |
 | `itemType` | enum | Yes | Type of item: `ingredient`, `ready_meal`, or `inedible` |
 | `readyMealData` | ReadyMealData | Conditional | Metadata for ready meals. Required if `itemType = ready_meal`, must be null otherwise |
@@ -106,7 +110,7 @@ Represents a product that can be purchased at the supermarket. Items can be ingr
 ```json
 {
   "id": "item-001",
-  "name": "Carrots",
+  "name": "carrots",
   "categoryId": "cat-002",
   "itemType": "ingredient",
   "createdAt": "2025-11-04T10:00:00Z",
@@ -119,7 +123,7 @@ Represents a product that can be purchased at the supermarket. Items can be ingr
 ```json
 {
   "id": "item-002",
-  "name": "Chicken Tikka Masala (Ready Meal)",
+  "name": "chicken tikka masala (ready meal)",
   "categoryId": "cat-008",
   "itemType": "ready_meal",
   "readyMealData": {
@@ -138,13 +142,15 @@ Represents a product that can be purchased at the supermarket. Items can be ingr
 ```json
 {
   "id": "item-003",
-  "name": "Dish Soap",
+  "name": "dish soap",
   "categoryId": "cat-015",
   "itemType": "inedible",
   "createdAt": "2025-11-04T10:00:00Z",
   "updatedAt": "2025-11-04T10:00:00Z"
 }
 ```
+
+**Note:** Item names are automatically converted to lowercase before storage to ensure consistent data normalization. The UI should apply desired casing through CSS (e.g., `text-transform: capitalize`).
 
 ### Recipe
 
@@ -155,9 +161,9 @@ Contains complete instructions for preparing a dish, including ingredients and c
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier (UUID) |
-| `name` | string | Yes | Recipe name |
-| `description` | string | No | Brief description or summary |
-| `steps` | string[] | Yes | Ordered list of preparation instructions |
+| `name` | string | Yes | Recipe name (stored as lowercase). CSS should be used for presentation casing. |
+| `description` | string | No | Brief description or summary (stored as-is to preserve author's intent) |
+| `steps` | string[] | Yes | Ordered list of preparation instructions (stored as-is to preserve formatting and casing) |
 | `ingredients` | RecipeIngredient[] | Yes | List of required ingredients with quantities |
 | `dish` | enum | Yes | Meal type: `breakfast`, `lunch`, `dinner`, or `dessert` |
 | `course` | enum | Yes | Course type: `starter`, `main`, or `side` |
@@ -180,7 +186,7 @@ Contains complete instructions for preparing a dish, including ingredients and c
 ```json
 {
   "id": "rec-001",
-  "name": "Grilled Cheese Sandwich",
+  "name": "grilled cheese sandwich",
   "description": "Classic comfort food with crispy bread and melted cheese",
   "steps": [
     "Butter one side of each bread slice",
@@ -214,6 +220,8 @@ Contains complete instructions for preparing a dish, including ingredients and c
   "updatedAt": "2025-11-04T10:00:00Z"
 }
 ```
+
+**Note:** Recipe names are automatically converted to lowercase before storage. Descriptions and steps preserve their original casing to maintain the author's formatting and intent. The UI should apply desired casing to recipe names through CSS (e.g., `text-transform: capitalize`).
 
 ### Meal
 
@@ -330,17 +338,20 @@ The following diagram illustrates the relationships between entities:
 ### Validation Rules
 
 1. **Category**
-   - Name must be unique
+   - Name must be unique (case-insensitive, enforced by lowercase storage)
    - Name cannot be empty or whitespace only
+   - Name is automatically converted to lowercase before storage
    - sortOrder must be non-negative
 
 2. **Unit**
-   - Name must be unique
+   - Name must be unique (case-insensitive, enforced by lowercase storage)
+   - Name is automatically converted to lowercase before storage
    - Type must be one of: `weight`, `volume`, `count`
-   - Abbreviation, if provided, should be short (1-4 characters recommended)
+   - Abbreviation, if provided, should be short (1-4 characters recommended) and is stored as-is
 
 3. **Item**
-   - Name must be unique
+   - Name must be unique (case-insensitive, enforced by lowercase storage)
+   - Name is automatically converted to lowercase before storage
    - categoryId must reference an existing Category
    - itemType must be one of: `ingredient`, `ready_meal`, `inedible`
    - If `itemType = ready_meal`:
@@ -354,6 +365,8 @@ The following diagram illustrates the relationships between entities:
 
 4. **Recipe**
    - Name cannot be empty
+   - Name is automatically converted to lowercase before storage
+   - Description and steps are stored as-is to preserve formatting
    - Must have at least one ingredient
    - Must have at least one step
    - Dish must be one of: `breakfast`, `lunch`, `dinner`, `dessert`
@@ -387,6 +400,27 @@ Alternatively, implement cascade policies:
 ## IndexedDB Implementation Notes
 
 Given the application uses IndexedDB for persistence:
+
+### Text Normalization
+
+To ensure consistent data storage and querying, the following normalization rules are applied:
+
+**Lowercase Coercion:**
+- **Category names** are converted to lowercase before storage
+- **Unit names** are converted to lowercase before storage
+- **Item names** are converted to lowercase before storage
+- **Recipe names** are converted to lowercase before storage
+
+**Preserved Casing:**
+- **Unit abbreviations** preserve original casing (semantically meaningful, e.g., "mL" vs "ml")
+- **Recipe descriptions** preserve original casing (author's formatting)
+- **Recipe steps** preserve original casing (author's formatting)
+- **Meal notes** preserve original casing (user's formatting)
+
+**Rationale:**
+- Lowercase storage eliminates case-sensitivity issues in searches and prevents duplicate entries
+- UI layer applies desired presentation casing via CSS (e.g., `text-transform: capitalize`)
+- Multi-line text and abbreviations retain original casing where it may be semantically meaningful
 
 ### Object Stores
 

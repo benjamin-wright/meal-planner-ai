@@ -1,8 +1,13 @@
+export { AlertIcon } from './AlertIcon';
 export { ArrowLeftIcon } from './ArrowLeftIcon';
 export { CalendarIcon } from './CalendarIcon';
 export { CategoryIcon } from './CategoryIcon';
 export { ChevronRightIcon } from './ChevronRightIcon';
+export { DeleteIcon } from './DeleteIcon';
+export { DragHandleIcon } from './DragHandleIcon';
+export { EditIcon } from './EditIcon';
 export { ItemIcon } from './ItemIcon';
+export { PlusIcon } from './PlusIcon';
 export { RecipeIcon } from './RecipeIcon';
 export { SettingsIcon } from './SettingsIcon';
 export { ShoppingCartIcon } from './ShoppingCartIcon';

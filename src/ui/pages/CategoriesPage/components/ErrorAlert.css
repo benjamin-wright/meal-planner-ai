@@ -1,0 +1,16 @@
+.error-alert {
+  padding: var(--spacing-md);
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: var(--radius-md);
+  color: #c00;
+  font-size: 0.875rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .error-alert {
+    background-color: #4a1a1a;
+    border-color: #8a2a2a;
+    color: #ff8888;
+  }
+}

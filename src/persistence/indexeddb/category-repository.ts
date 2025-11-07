@@ -30,23 +30,39 @@ export class CategoryRepository implements ICategoryRepository {
    * 
    * @param category - The category to create
    * @returns A promise resolving to the created category
-   * @throws Error if a category with the same name already exists
+   * @throws Error if validation fails or a category with the same name already exists
    */
   async create(category: Category): Promise<Category> {
-    // Check if name already exists
-    const existing = await this.getByName(category.name);
-    if (existing) {
-      throw new Error(`Category with name "${category.name}" already exists`);
+    // Validate name
+    if (!category.name || category.name.trim().length === 0) {
+      throw new Error('Category name cannot be empty or whitespace only');
     }
 
-    const serialized = serializeDates(category as unknown as Record<string, unknown>);
+    // Validate sortOrder
+    if (category.sortOrder !== undefined && category.sortOrder < 0) {
+      throw new Error('Category sortOrder must be non-negative');
+    }
+
+    // Coerce name to lowercase
+    const normalizedCategory: Category = {
+      ...category,
+      name: category.name.toLowerCase(),
+    };
+
+    // Check if name already exists
+    const existing = await this.getByName(normalizedCategory.name);
+    if (existing) {
+      throw new Error(`Category with name "${normalizedCategory.name}" already exists`);
+    }
+
+    const serialized = serializeDates(normalizedCategory as unknown as Record<string, unknown>);
     await executeWriteTransaction(
       this.db,
       STORES.CATEGORIES,
       (store) => store.add(serialized)
     );
 
-    return category;
+    return normalizedCategory;
   }
 
   /**
@@ -122,44 +138,68 @@ export class CategoryRepository implements ICategoryRepository {
    * 
    * @param category - The category with updated values
    * @returns A promise resolving to the updated category
-   * @throws Error if the category does not exist or name conflicts with another category
+   * @throws Error if validation fails, the category does not exist, or name conflicts with another category
    */
   async update(category: Category): Promise<Category> {
+    // Validate name
+    if (!category.name || category.name.trim().length === 0) {
+      throw new Error('Category name cannot be empty or whitespace only');
+    }
+
+    // Validate sortOrder
+    if (category.sortOrder !== undefined && category.sortOrder < 0) {
+      throw new Error('Category sortOrder must be non-negative');
+    }
+
     // Check if category exists
     const existing = await this.getById(category.id);
     if (!existing) {
       throw new Error(`Category with id "${category.id}" does not exist`);
     }
 
+    // Coerce name to lowercase
+    const normalizedCategory: Category = {
+      ...category,
+      name: category.name.toLowerCase(),
+    };
+
     // Check if name conflicts with a different category
-    const nameConflict = await this.getByName(category.name);
+    const nameConflict = await this.getByName(normalizedCategory.name);
     if (nameConflict && nameConflict.id !== category.id) {
-      throw new Error(`Category with name "${category.name}" already exists`);
+      throw new Error(`Category with name "${normalizedCategory.name}" already exists`);
     }
 
-    const serialized = serializeDates(category as unknown as Record<string, unknown>);
+    const serialized = serializeDates(normalizedCategory as unknown as Record<string, unknown>);
     await executeWriteTransaction(
       this.db,
       STORES.CATEGORIES,
       (store) => store.put(serialized)
     );
 
-    return category;
+    return normalizedCategory;
   }
 
   /**
    * Delete a category from the database.
    * 
-   * Note: This implementation does not check referential integrity with Items.
-   * Future enhancement: check for Items referencing this category and prevent deletion.
+   * Enforces referential integrity by preventing deletion if any items reference this category.
    * 
    * @param id - The unique identifier of the category to delete
    * @returns A promise resolving to true if deleted, false if not found
+   * @throws Error if items reference this category
    */
   async delete(id: string): Promise<boolean> {
     const existing = await this.getById(id);
     if (!existing) {
       return false;
+    }
+
+    // Check referential integrity - prevent deletion if items reference this category
+    const itemCount = await this.countItemsByCategory(id);
+    if (itemCount > 0) {
+      throw new Error(
+        `Cannot delete category "${existing.name}" because ${itemCount} item(s) reference it`
+      );
     }
 
     await executeWriteTransaction(
@@ -174,7 +214,7 @@ export class CategoryRepository implements ICategoryRepository {
   /**
    * Retrieve a category by its name.
    * 
-   * @param name - The category name to search for (case-insensitive)
+   * @param name - The category name to search for (should be lowercase)
    * @returns A promise resolving to the category if found, null otherwise
    */
   async getByName(name: string): Promise<Category | null> {
@@ -194,6 +234,31 @@ export class CategoryRepository implements ICategoryRepository {
 
       request.onerror = () => {
         reject(new Error(`Failed to get category by name: ${request.error?.message}`));
+      };
+    });
+  }
+
+  /**
+   * Count the number of items that reference a specific category.
+   * 
+   * Used for referential integrity checks.
+   * 
+   * @param categoryId - The unique identifier of the category
+   * @returns A promise resolving to the count of items in this category
+   */
+  private async countItemsByCategory(categoryId: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction(STORES.ITEMS, 'readonly');
+      const store = transaction.objectStore(STORES.ITEMS);
+      const index = store.index('categoryId');
+      const request = index.count(IDBKeyRange.only(categoryId));
+
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+
+      request.onerror = () => {
+        reject(new Error(`Failed to count items by category: ${request.error?.message}`));
       };
     });
   }
