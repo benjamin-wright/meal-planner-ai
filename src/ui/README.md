@@ -41,6 +41,18 @@ Quick reference for all UI components in the meal planner application. Check thi
 |------|---------|
 | `useManageNavigation` | Navigate back to `/manage` hub page |
 
+## Providers (`src/ui/providers/`)
+
+| Provider | Purpose |
+|----------|---------|
+| `DatabaseProvider` | Provides database access throughout component tree via React Context |
+
+### Provider Hooks
+
+| Hook | Purpose |
+|------|---------|
+| `useDatabase` | Access database instance, loading state, and initialization errors |
+
 ## Pages (`src/ui/pages/`)
 
 | Page | Route | Purpose | Status |
